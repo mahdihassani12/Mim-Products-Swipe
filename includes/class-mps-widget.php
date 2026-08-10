@@ -60,10 +60,11 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'carousel', array( 'label' => esc_html__( 'Carousel', 'mim-products-swipe' ) ) );
-		$this->add_responsive_control( 'items', array( 'label' => esc_html__( 'Items per view', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'desktop_default' => 4, 'tablet_default' => 2, 'mobile_default' => 1, 'min' => 1, 'max' => 8 ) );
+		$this->add_responsive_control( 'items', array( 'label' => esc_html__( 'Items per row', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'desktop_default' => 4, 'tablet_default' => 2, 'mobile_default' => 1, 'min' => 1, 'max' => 8, 'description' => esc_html__( 'Use the device icons to choose separate values for large, medium, and small screens.', 'mim-products-swipe' ) ) );
 		$this->add_responsive_control( 'gap', array( 'label' => esc_html__( 'Gap', 'mim-products-swipe' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'range' => array( 'px' => array( 'min' => 0, 'max' => 100 ) ), 'desktop_default' => array( 'size' => 24 ), 'tablet_default' => array( 'size' => 18 ), 'mobile_default' => array( 'size' => 12 ) ) );
 		$this->add_control( 'arrows', array( 'label' => esc_html__( 'Navigation arrows', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
 		$this->add_control( 'dots', array( 'label' => esc_html__( 'Pagination dots', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
+		$this->add_control( 'draggable', array( 'label' => esc_html__( 'Mouse drag & touch swipe', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
 		$this->add_control( 'autoplay', array( 'label' => esc_html__( 'Autoplay', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes' ) );
 		$this->add_control( 'autoplay_speed', array( 'label' => esc_html__( 'Autoplay delay (ms)', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'default' => 4000, 'min' => 1000, 'step' => 100, 'condition' => array( 'autoplay' => 'yes' ) ) );
 		$this->add_control( 'loop', array( 'label' => esc_html__( 'Loop', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
@@ -141,9 +142,15 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section( 'style_navigation', array( 'label' => esc_html__( 'Navigation', 'mim-products-swipe' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_control( 'arrow_color', array( 'label' => 'Arrow color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'color: {{VALUE}}' ) ) );
 		$this->add_control( 'arrow_background', array( 'label' => 'Arrow background', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'arrow_border_color', array( 'label' => 'Arrow border color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'border-color: {{VALUE}}' ) ) );
 		$this->add_control( 'arrow_size', array( 'label' => 'Arrow size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 24, 'max' => 80 ) ), 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_control( 'arrow_icon_size', array( 'label' => 'Arrow icon size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 12, 'max' => 60 ) ), 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'font-size: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_responsive_control( 'arrow_offset', array( 'label' => 'Arrow edge offset', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => -60, 'max' => 60 ) ), 'selectors' => array( '{{WRAPPER}} .mps-prev' => 'inset-inline-start: {{SIZE}}{{UNIT}}', '{{WRAPPER}} .mps-next' => 'inset-inline-end: {{SIZE}}{{UNIT}}' ) ) );
 		$this->add_control( 'dot_color', array( 'label' => 'Dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot' => 'background: {{VALUE}}' ) ) );
 		$this->add_control( 'dot_active_color', array( 'label' => 'Active dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'dot_size', array( 'label' => 'Dot size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 30 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_control( 'dot_active_width', array( 'label' => 'Active dot width', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 80 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active' => 'width: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_responsive_control( 'pagination_spacing', array( 'label' => 'Pagination spacing', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 0, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dots' => 'margin-top: {{SIZE}}{{UNIT}}' ) ) );
 		$this->end_controls_section();
 	}
 
@@ -154,7 +161,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$config = array(
 			'desktop' => max( 1, absint( $s['items'] ?? 4 ) ), 'tablet' => max( 1, absint( $s['items_tablet'] ?? 2 ) ), 'mobile' => max( 1, absint( $s['items_mobile'] ?? 1 ) ),
 			'gapDesktop' => absint( $s['gap']['size'] ?? 24 ), 'gapTablet' => absint( $s['gap_tablet']['size'] ?? 18 ), 'gapMobile' => absint( $s['gap_mobile']['size'] ?? 12 ),
-			'arrows' => 'yes' === ( $s['arrows'] ?? '' ), 'dots' => 'yes' === ( $s['dots'] ?? '' ), 'autoplay' => 'yes' === ( $s['autoplay'] ?? '' ), 'speed' => absint( $s['autoplay_speed'] ?? 4000 ), 'loop' => 'yes' === ( $s['loop'] ?? '' ), 'rtl' => is_rtl()
+			'arrows' => 'yes' === ( $s['arrows'] ?? '' ), 'dots' => 'yes' === ( $s['dots'] ?? '' ), 'draggable' => 'yes' === ( $s['draggable'] ?? 'yes' ), 'autoplay' => 'yes' === ( $s['autoplay'] ?? '' ), 'speed' => absint( $s['autoplay_speed'] ?? 4000 ), 'loop' => 'yes' === ( $s['loop'] ?? '' ), 'rtl' => is_rtl()
 		);
 		$is_editor = class_exists( '\\Elementor\\Plugin' ) && \Elementor\Plugin::$instance->editor->is_edit_mode();
 		?>

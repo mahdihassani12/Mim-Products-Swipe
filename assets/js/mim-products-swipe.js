@@ -89,16 +89,45 @@
 	};
 
 	MPSCarousel.prototype.setupPanel = function (panel) {
-		var self = this, startX = null, delta = 0;
+		var self = this, startX = null, delta = 0, dragged = false;
 		panel._index = 0;
 		panel._track = panel.querySelector('.mps-track');
 		panel._dots = panel.querySelector('.mps-dots');
 		var previous = panel.querySelector('.mps-prev'), next = panel.querySelector('.mps-next');
 		if (previous) previous.addEventListener('click', function () { self.move(panel, self.config.rtl ? 1 : -1); });
 		if (next) next.addEventListener('click', function () { self.move(panel, self.config.rtl ? -1 : 1); });
-		panel._track.addEventListener('pointerdown', function (event) { startX = event.clientX; delta = 0; panel._track.setPointerCapture(event.pointerId); });
-		panel._track.addEventListener('pointermove', function (event) { if (startX !== null) delta = event.clientX - startX; });
-		panel._track.addEventListener('pointerup', function () { if (Math.abs(delta) > 35) self.move(panel, delta > 0 ? -1 : 1); startX = null; });
+		if (this.config.draggable !== false) {
+			panel._track.classList.add('is-draggable');
+			panel._track.addEventListener('dragstart', function (event) { event.preventDefault(); });
+			panel._track.addEventListener('pointerdown', function (event) {
+				if (event.button !== undefined && event.button !== 0) return;
+				startX = event.clientX; delta = 0; dragged = false;
+				panel._track.classList.add('is-dragging');
+				panel._track.setPointerCapture(event.pointerId);
+				self.stop();
+			});
+			panel._track.addEventListener('pointermove', function (event) {
+				if (startX === null) return;
+				delta = event.clientX - startX;
+				dragged = dragged || Math.abs(delta) > 5;
+				panel._track.style.transform = 'translate3d(' + (panel._baseOffset + delta) + 'px,0,0)';
+			});
+			var finishDrag = function (event) {
+				if (startX === null) return;
+				if (event && panel._track.hasPointerCapture(event.pointerId)) panel._track.releasePointerCapture(event.pointerId);
+				panel._track.classList.remove('is-dragging');
+				startX = null;
+				if (Math.abs(delta) > 35) self.move(panel, (delta > 0 ? -1 : 1) * (self.config.rtl ? -1 : 1));
+				else self.draw(panel);
+				self.auto(panel);
+			};
+			panel._track.addEventListener('pointerup', finishDrag);
+			panel._track.addEventListener('pointercancel', finishDrag);
+			panel._track.addEventListener('click', function (event) {
+				if (!dragged) return;
+				event.preventDefault(); event.stopPropagation(); dragged = false;
+			}, true);
+		}
 		panel.addEventListener('mouseenter', this.stop.bind(this));
 		panel.addEventListener('mouseleave', function () { self.auto(panel); });
 		panel.addEventListener('focusin', this.stop.bind(this));
@@ -130,7 +159,8 @@
 			slide.style.maxWidth = slideWidth + 'px';
 		});
 		var direction = this.config.rtl ? 1 : -1;
-		panel._track.style.transform = 'translate3d(' + (direction * panel._index * step) + 'px,0,0)';
+		panel._baseOffset = direction * panel._index * step;
+		panel._track.style.transform = 'translate3d(' + panel._baseOffset + 'px,0,0)';
 		slides.forEach(function (slide, i) { slide.setAttribute('aria-label', (i + 1) + ' of ' + slides.length); });
 		var previous = panel.querySelector('.mps-prev'), next = panel.querySelector('.mps-next'), max = this.max(panel);
 		if (previous) previous.hidden = max === 0;
