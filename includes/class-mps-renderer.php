@@ -1,10 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 final class MPS_Renderer {
 	public static function products_html( $args, $theme_template = true ) {
 		$products = MPS_Query::get_products( $args );
-		if ( ! $products ) return '<div class="mps-empty">' . esc_html__( 'No products found.', 'mim-products-swipe' ) . '</div>';
+		if ( ! $products ) {
+			return '<div class="mps-empty">' . esc_html__( 'No products found.', 'mim-products-swipe' ) . '</div>';
+		}
+
 		ob_start();
 		foreach ( $products as $product ) {
 			$GLOBALS['post'] = get_post( $product->get_id() );
@@ -29,11 +34,15 @@ final class MPS_Renderer {
 		do_action( 'mps_before_product_card', $product );
 		echo '<article class="mps-card">';
 		echo '<a class="mps-image" href="' . esc_url( $permalink ) . '">' . wp_kses_post( $product->get_image( 'woocommerce_thumbnail', array( 'loading' => 'lazy' ) ) ) . '</a>';
-		if ( $product->is_on_sale() ) echo '<span class="mps-badge">' . esc_html__( 'Sale', 'mim-products-swipe' ) . '</span>';
+			if ( $product->is_on_sale() ) {
+				echo '<span class="mps-badge">' . esc_html__( 'Sale', 'mim-products-swipe' ) . '</span>';
+			}
 		echo '<div class="mps-card-content">';
 		echo wc_get_product_category_list( $product->get_id(), ', ', '<div class="mps-category">', '</div>' );
 		echo '<a href="' . esc_url( $permalink ) . '"><h3 class="mps-title">' . esc_html( $product->get_name() ) . '</h3></a>';
-		if ( wc_review_ratings_enabled() ) echo '<div class="mps-rating">' . wp_kses_post( wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() ) ) . '</div>';
+			if ( wc_review_ratings_enabled() ) {
+				echo '<div class="mps-rating">' . wp_kses_post( wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() ) ) . '</div>';
+			}
 		echo '<div class="mps-price">' . wp_kses_post( $product->get_price_html() ) . '</div>';
 		woocommerce_template_loop_add_to_cart( array( 'product' => $product ) );
 		echo '</div></article>';

@@ -1,5 +1,7 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
@@ -155,14 +157,30 @@ class MPS_Elementor_Widget extends Widget_Base {
 	}
 
 	protected function render() {
-		$s = $this->get_settings_for_display();
-		$tabs = ! empty( $s['tabs'] ) ? $s['tabs'] : array( array( 'label' => 'Products', 'source' => 'latest' ) );
-		$uid = 'mps-' . $this->get_id();
+		$s    = $this->get_settings_for_display();
+		$tabs = ! empty( $s['tabs'] )
+			? $s['tabs']
+			: array( array( 'label' => 'Products', 'source' => 'latest' ) );
+		$tabs = apply_filters( 'mps_widget_tabs', $tabs, $s, $this );
+		$uid  = 'mps-' . $this->get_id();
+
 		$config = array(
-			'desktop' => max( 1, absint( $s['items'] ?? 4 ) ), 'tablet' => max( 1, absint( $s['items_tablet'] ?? 2 ) ), 'mobile' => max( 1, absint( $s['items_mobile'] ?? 1 ) ),
-			'gapDesktop' => absint( $s['gap']['size'] ?? 24 ), 'gapTablet' => absint( $s['gap_tablet']['size'] ?? 18 ), 'gapMobile' => absint( $s['gap_mobile']['size'] ?? 12 ),
-			'arrows' => 'yes' === ( $s['arrows'] ?? '' ), 'dots' => 'yes' === ( $s['dots'] ?? '' ), 'draggable' => 'yes' === ( $s['draggable'] ?? 'yes' ), 'autoplay' => 'yes' === ( $s['autoplay'] ?? '' ), 'speed' => absint( $s['autoplay_speed'] ?? 4000 ), 'loop' => 'yes' === ( $s['loop'] ?? '' ), 'rtl' => is_rtl()
+			'desktop'    => max( 1, absint( $s['items'] ?? 4 ) ),
+			'tablet'     => max( 1, absint( $s['items_tablet'] ?? 2 ) ),
+			'mobile'     => max( 1, absint( $s['items_mobile'] ?? 1 ) ),
+			'gapDesktop' => absint( $s['gap']['size'] ?? 24 ),
+			'gapTablet'  => absint( $s['gap_tablet']['size'] ?? 18 ),
+			'gapMobile'  => absint( $s['gap_mobile']['size'] ?? 12 ),
+			'arrows'     => 'yes' === ( $s['arrows'] ?? '' ),
+			'dots'       => 'yes' === ( $s['dots'] ?? '' ),
+			'draggable'  => 'yes' === ( $s['draggable'] ?? 'yes' ),
+			'autoplay'   => 'yes' === ( $s['autoplay'] ?? '' ),
+			'speed'      => absint( $s['autoplay_speed'] ?? 4000 ),
+			'loop'       => 'yes' === ( $s['loop'] ?? '' ),
+			'rtl'        => is_rtl(),
 		);
+
+		$config    = apply_filters( 'mps_carousel_config', $config, $s, $this );
 		$is_editor = class_exists( '\\Elementor\\Plugin' ) && \Elementor\Plugin::$instance->editor->is_edit_mode();
 		?>
 		<section id="<?php echo esc_attr( $uid ); ?>" class="mps" data-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>" aria-roledescription="carousel" aria-label="<?php echo esc_attr( $s['heading'] ?: __( 'Products', 'mim-products-swipe' ) ); ?>">

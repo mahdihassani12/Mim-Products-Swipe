@@ -8,7 +8,9 @@
  * Requires Plugins: woocommerce, elementor
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 define( 'MPS_VERSION', '2.1.0' );
 define( 'MPS_FILE', __FILE__ );
@@ -36,7 +38,16 @@ final class MPS_Plugin {
 	public function register_assets() {
 		wp_register_style( 'mim-products-swipe', MPS_URL . 'assets/css/mim-products-swipe.css', array(), MPS_VERSION );
 		wp_register_script( 'mim-products-swipe', MPS_URL . 'assets/js/mim-products-swipe.js', array(), MPS_VERSION, true );
-		wp_localize_script( 'mim-products-swipe', 'MPS_DATA', array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ), 'nonce' => wp_create_nonce( 'mps_load_products' ), 'loading' => esc_html__( 'Loading products…', 'mim-products-swipe' ), 'error' => esc_html__( 'Products could not be loaded.', 'mim-products-swipe' ) ) );
+		wp_localize_script(
+			'mim-products-swipe',
+			'MPS_DATA',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => wp_create_nonce( 'mps_load_products' ),
+				'loading' => esc_html__( 'Loading products…', 'mim-products-swipe' ),
+				'error'   => esc_html__( 'Products could not be loaded.', 'mim-products-swipe' ),
+			)
+		);
 	}
 
 	public function register_widget( $widgets_manager ) {
@@ -45,7 +56,10 @@ final class MPS_Plugin {
 	}
 
 	public function dependency_notice() {
-		if ( ! current_user_can( 'activate_plugins' ) ) return;
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			return;
+		}
+
 		echo '<div class="notice notice-warning"><p>' . esc_html__( 'Mim Products Swipe requires WooCommerce and Elementor to be installed and active.', 'mim-products-swipe' ) . '</p></div>';
 	}
 }
