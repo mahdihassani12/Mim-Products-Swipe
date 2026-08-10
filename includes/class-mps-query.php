@@ -97,6 +97,10 @@ final class MPS_Query {
 			$ids = $query->posts;
 			set_transient( $key, $ids, 10 * MINUTE_IN_SECONDS );
 		}
+		// Taxonomy and metadata joins can return the same post ID more than once.
+		// Keep every product to a single slide instead of filling the row with
+		// repeated copies when the filtered result contains only one product.
+		$ids = array_values( array_unique( array_map( 'absint', $ids ) ) );
 		return array_filter( array_map( 'wc_get_product', $ids ) );
 	}
 }

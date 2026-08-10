@@ -3,7 +3,7 @@ Contributors: mim
 Tags: woocommerce, elementor, products, carousel, tabs
 Requires at least: 6.2
 Requires PHP: 7.4
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv2 or later
 
 A simple, responsive WooCommerce product carousel for Elementor.
