@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Mim Products Swipe
  * Description: Responsive tabbed WooCommerce product carousels for Elementor.
- * Version: 2.3.0
+ * Version: 2.3.1
  * Author: Mim
  * Text Domain: mim-products-swipe
  * Requires Plugins: woocommerce, elementor
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MPS_VERSION', '2.3.0' );
+define( 'MPS_VERSION', '2.3.1' );
 define( 'MPS_FILE', __FILE__ );
 define( 'MPS_URL', plugin_dir_url( __FILE__ ) );
 

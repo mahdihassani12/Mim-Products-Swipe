@@ -273,8 +273,16 @@
   padding: 5px 20px;
 }
 .mps .mps-viewport {
-  padding-block: 48px;
-  margin-block: -48px;
+  /*
+   * A horizontally scrolling element clips vertical overflow as well. Theme
+   * cards commonly position wishlist/compare actions just below the card, so
+   * reserve enough scroll-canvas space for those actions while the negative
+   * margins keep the carousel's surrounding layout unchanged.
+   */
+  padding-block-start: 48px;
+  padding-block-end: 96px;
+  margin-block-start: -48px;
+  margin-block-end: -96px;
 }
 .mps .mps-slide,
 .mps .mps-product,
