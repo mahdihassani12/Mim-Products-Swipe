@@ -6,45 +6,27 @@ Requires PHP: 7.4
 Stable tag: 2.1.0
 License: GPLv2 or later
 
-Tabbed, responsive WooCommerce product carousels for Elementor.
+A simple, responsive WooCommerce product carousel for Elementor.
+
+== Description ==
+
+Mim Products Swipe displays products in swipeable, tabbed carousels. Choose the
+products to show, adjust the responsive layout, and style the carousel with
+Elementor controls. It supports theme product cards, AJAX tabs, touch gestures,
+keyboard navigation, autoplay, arrows, and pagination dots.
 
 == Installation ==
-1. Upload the plugin ZIP from Plugins > Add New > Upload Plugin.
-2. Activate WooCommerce, Elementor, and Mim Products Swipe.
-3. Edit a page with Elementor and search for “Mim Products Swipe”.
 
-== Features ==
-* Responsive items per view and editable gaps.
-* Tabs for latest, featured, sale, best-selling, category, brand, or attribute products.
-* Searchable shared category, brand, attribute, include, exclude, and stock filters.
-* Per-tab categories, brands, attributes, ordering, and filter relationships.
-* Theme WooCommerce product-card template or built-in card.
-* Latest, featured, sale, best-selling, top-rated, and random product sources.
-* AJAX loading and cached queries for inactive tabs.
-* Accessible keyboard tabs, live announcements, focus styles, and reduced-motion support.
-* Autoplay, loop, touch swipe, RTL, arrows, and pagination.
-* Elementor controls for heading, tabs, cards, images, typography, prices, and buttons.
-* Independent Elementor styles for active and inactive tabs.
-* Hover, navigation arrow, pagination, and product-card effects.
+1. Install and activate WooCommerce and Elementor.
+2. Upload and activate Mim Products Swipe.
+3. Edit a page with Elementor and add the “Mim Products Swipe” widget.
+4. Choose your product tabs and customize the layout in the widget controls.
 
-== 2.1.0 ==
-Fixed product slides being forced to full width. Added reliable mouse dragging, a drag/swipe toggle, responsive items-per-row controls, and expanded arrow and pagination styling.
+== Customization ==
 
-== 2.0.0 ==
-Major architecture and UX upgrade. Existing widgets remain supported, while new widgets use searchable selectors and optimized AJAX tabs.
-
-== 2.0.1 ==
-Fixed initial active-tab state, Elementor tab-style overrides, and wishlist/compare control clipping and layering.
-
-== 2.0.2 ==
-Fixed responsive multi-product widths and added independent Normal, Hover, and Active tab styling modes.
-
-== 2.0.3 ==
-Fixed theme hover and focus styles overriding active and normal tab colors. Carousel behavior was unchanged.
-
-== Brand support ==
-Automatically detects product_brand, pwb-brand, yith_product_brand, or pa_brand.
-
-== Attribute syntax ==
-Shared filter example: pa_color:red,blue|pa_size:large
-Tab attribute example: pa_color:red
+Most colors, spacing, typography, cards, arrows, and dots can be changed in
+Elementor. Developers can also use the `mps_widget_tabs`,
+`mps_carousel_config`, `mps_product_query_args`, and `mps_products_html`
+filters. The `--mps-accent`, `--mps-text`, `--mps-muted`, `--mps-border`,
+`--mps-surface`, and `--mps-danger` CSS properties provide lightweight theme
+overrides.
