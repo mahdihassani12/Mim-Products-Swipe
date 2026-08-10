@@ -79,7 +79,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section( 'style_heading', array( 'label' => esc_html__( 'Heading', 'mim-products-swipe' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'heading_typography', 'selector' => '{{WRAPPER}} .mps-heading' ) );
 		$this->add_control( 'heading_color', array( 'label' => 'Color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-heading' => 'color: {{VALUE}}' ) ) );
-		$this->add_control( 'accent_color', array( 'label' => 'Accent color', 'type' => Controls_Manager::COLOR, 'default' => '#09b9d4', 'selectors' => array( '{{WRAPPER}} .mps-heading:after' => 'background: {{VALUE}}', '{{WRAPPER}} .mps-dot.is-active, {{WRAPPER}} .mps-dots .owl-dot.active' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'accent_color', array( 'label' => 'Accent color', 'type' => Controls_Manager::COLOR, 'default' => '#09b9d4', 'selectors' => array( '{{WRAPPER}} .mps-heading:after' => 'background: {{VALUE}}', '{{WRAPPER}} .mps-dot.is-active' => 'background: {{VALUE}}' ) ) );
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'style_tabs', array( 'label' => esc_html__( 'Tabs', 'mim-products-swipe' ), 'tab' => Controls_Manager::TAB_STYLE ) );
@@ -195,7 +195,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 				$signature = hash_hmac( 'sha256', $payload, wp_salt( 'auth' ) );
 			?>
 			<div id="<?php echo esc_attr( $uid . '-panel-' . $i ); ?>" class="mps-panel <?php echo 0 === $i ? 'is-active' : ''; ?>" role="tabpanel" aria-labelledby="<?php echo esc_attr( $uid . '-tab-' . $i ); ?>" data-panel="<?php echo esc_attr( $i ); ?>" <?php echo 0 === $i ? '' : 'hidden'; ?> <?php if ( $lazy ) : ?>data-payload="<?php echo esc_attr( $payload ); ?>" data-signature="<?php echo esc_attr( $signature ); ?>"<?php endif; ?>>
-				<div class="mps-viewport"><div class="mps-track owl-carousel"><?php echo $lazy ? '<div class="mps-loading" aria-hidden="true"></div>' : MPS_Renderer::products_html( $args, 'yes' === ( $s['theme_template'] ?? 'yes' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
+				<div class="mps-viewport" tabindex="0"><div class="mps-track"><?php echo $lazy ? '<div class="mps-loading" aria-hidden="true"></div>' : MPS_Renderer::products_html( $args, 'yes' === ( $s['theme_template'] ?? 'yes' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
 				<?php if ( 'yes' === ( $s['arrows'] ?? '' ) ) : ?><button class="mps-arrow mps-prev" type="button" aria-label="<?php esc_attr_e( 'Previous products', 'mim-products-swipe' ); ?>">&#8249;</button><button class="mps-arrow mps-next" type="button" aria-label="<?php esc_attr_e( 'Next products', 'mim-products-swipe' ); ?>">&#8250;</button><?php endif; ?>
 				<?php if ( 'yes' === ( $s['dots'] ?? '' ) ) : ?><div class="mps-dots" aria-label="<?php esc_attr_e( 'Carousel pagination', 'mim-products-swipe' ); ?>"></div><?php endif; ?>
 			</div><?php endforeach; ?>
