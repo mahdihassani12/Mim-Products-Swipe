@@ -65,7 +65,7 @@
 .mps-tab:focus-visible,
 .mps-arrow:focus-visible,
 .mps-dot:focus-visible,
-.mps-dots .owl-dot:focus-visible {
+.mps-viewport:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 3px;
 }
@@ -76,31 +76,32 @@
   display: none;
 }
 .mps-viewport {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: inline mandatory;
+  scrollbar-width: none;
+  touch-action: pan-y pinch-zoom;
   width: 100%;
 }
+.mps-viewport::-webkit-scrollbar {
+  display: none;
+}
 .mps-track {
+  display: grid;
+  gap: var(--mps-gap);
+  grid-auto-columns: calc((100% - (var(--mps-items) - 1) * var(--mps-gap)) / var(--mps-items));
+  grid-auto-flow: column;
   width: 100%;
 }
 .mps-slide {
   box-sizing: border-box;
   display: flex;
   min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   width: 100%;
-}
-.mps-track.owl-carousel .owl-stage {
-  display: flex;
-}
-.mps-track.owl-carousel .owl-item {
-  display: flex;
-  float: none;
-}
-.mps-track.owl-carousel .owl-item > .mps-slide {
-  height: 100%;
-}
-.mps-track.owl-carousel .owl-dots,
-.mps-track.owl-carousel .owl-nav {
-  display: none;
 }
 .mps-product {
   box-sizing: border-box;
@@ -198,8 +199,7 @@
   justify-content: center;
   margin-top: 28px;
 }
-.mps-dot,
-.mps-dots .owl-dot {
+.mps-dot {
   background: #c6c8ca;
   border: 0;
   border-radius: 99px;
@@ -209,8 +209,7 @@
   transition: width 0.2s;
   width: 9px;
 }
-.mps-dot.is-active,
-.mps-dots .owl-dot.active {
+.mps-dot.is-active {
   background: var(--mps-accent);
   width: 30px;
 }
@@ -274,8 +273,6 @@
   padding: 5px 20px;
 }
 .mps .mps-viewport {
-  overflow: clip;
-  overflow-clip-margin-block: 64px;
   padding-block: 48px;
   margin-block: -48px;
 }
@@ -304,12 +301,18 @@
 .mps .mps-dots[hidden] {
   display: none !important;
 }
-.mps .mps-track.owl-drag {
+.mps .mps-viewport {
   cursor: grab;
 }
-.mps .mps-track.owl-grab {
+.mps .mps-viewport.is-dragging {
   cursor: grabbing;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
   user-select: none;
+}
+.mps.mps-swipe-disabled .mps-viewport {
+  cursor: auto;
+  touch-action: pan-y;
 }
 .mps button.mps-tab:not(.is-active) {
   background: transparent;

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Mim Products Swipe
  * Description: Responsive tabbed WooCommerce product carousels for Elementor.
- * Version: 2.2.0
+ * Version: 2.3.0
  * Author: Mim
  * Text Domain: mim-products-swipe
  * Requires Plugins: woocommerce, elementor
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MPS_VERSION', '2.2.0' );
+define( 'MPS_VERSION', '2.3.0' );
 define( 'MPS_FILE', __FILE__ );
 define( 'MPS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -36,10 +36,8 @@ final class MPS_Plugin {
 	}
 
 	public function register_assets() {
-		wp_register_style( 'owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css', array(), '2.3.4' );
-		wp_register_script( 'owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js', array( 'jquery' ), '2.3.4', true );
-		wp_register_style( 'mim-products-swipe', MPS_URL . 'assets/css/mim-products-swipe.css', array( 'owl-carousel' ), MPS_VERSION );
-		wp_register_script( 'mim-products-swipe', MPS_URL . 'assets/js/mim-products-swipe.js', array( 'jquery', 'owl-carousel' ), MPS_VERSION, true );
+		wp_register_style( 'mim-products-swipe', MPS_URL . 'assets/css/mim-products-swipe.css', array(), MPS_VERSION );
+		wp_register_script( 'mim-products-swipe', MPS_URL . 'assets/js/mim-products-swipe.js', array( 'jquery' ), MPS_VERSION, true );
 		wp_localize_script(
 			'mim-products-swipe',
 			'MPS_DATA',
