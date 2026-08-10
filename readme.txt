@@ -3,7 +3,7 @@ Contributors: mim
 Tags: woocommerce, elementor, products, carousel, tabs
 Requires at least: 6.2
 Requires PHP: 7.4
-Stable tag: 2.0.3
+Stable tag: 2.1.0
 License: GPLv2 or later
 
 Tabbed, responsive WooCommerce product carousels for Elementor.
@@ -26,6 +26,9 @@ Tabbed, responsive WooCommerce product carousels for Elementor.
 * Elementor controls for heading, tabs, cards, images, typography, prices, and buttons.
 * Independent Elementor styles for active and inactive tabs.
 * Hover, navigation arrow, pagination, and product-card effects.
+
+== 2.1.0 ==
+Fixed product slides being forced to full width. Added reliable mouse dragging, a drag/swipe toggle, responsive items-per-row controls, and expanded arrow and pagination styling.
 
 == 2.0.0 ==
 Major architecture and UX upgrade. Existing widgets remain supported, while new widgets use searchable selectors and optimized AJAX tabs.
