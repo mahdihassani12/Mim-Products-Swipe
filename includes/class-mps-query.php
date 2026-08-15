@@ -12,7 +12,7 @@ final class MPS_Query {
 	public static function term_options( $taxonomy ) {
 		$options = array();
 		if ( ! taxonomy_exists( $taxonomy ) ) return $options;
-		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false, 'number' => 500 ) );
+		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false, 'number' => 500, 'orderby' => 'name', 'order' => 'ASC' ) );
 		if ( is_wp_error( $terms ) ) return $options;
 		foreach ( $terms as $term ) $options[ (string) $term->term_id ] = $term->name;
 		return $options;
@@ -50,8 +50,10 @@ final class MPS_Query {
 		$brand_tax = self::brand_taxonomy();
 
 		$global_categories = self::ids( $settings['categories'] ?? array() );
+		$product_tags = self::ids( $settings['product_tags'] ?? array() );
 		$global_brands = self::ids( $settings['brands'] ?? array() );
 		if ( $global_categories ) $tax_query[] = array( 'taxonomy' => 'product_cat', 'field' => 'term_id', 'terms' => $global_categories, 'operator' => ( $settings['category_operator'] ?? 'IN' ) === 'AND' ? 'AND' : 'IN' );
+		if ( $product_tags ) $tax_query[] = array( 'taxonomy' => 'product_tag', 'field' => 'term_id', 'terms' => $product_tags );
 		if ( $brand_tax && $global_brands ) $tax_query[] = array( 'taxonomy' => $brand_tax, 'field' => 'term_id', 'terms' => $global_brands );
 		if ( ! $global_categories && ! empty( $settings['category_filter'] ) ) $tax_query[] = array( 'taxonomy' => 'product_cat', 'field' => 'slug', 'terms' => array_filter( array_map( 'sanitize_title', explode( ',', $settings['category_filter'] ) ) ) );
 		if ( $brand_tax && ! $global_brands && ! empty( $settings['brand_filter'] ) ) $tax_query[] = array( 'taxonomy' => $brand_tax, 'field' => 'slug', 'terms' => array_filter( array_map( 'sanitize_title', explode( ',', $settings['brand_filter'] ) ) ) );
@@ -71,6 +73,8 @@ final class MPS_Query {
 		elseif ( 'random' === $source ) $args['orderby'] = 'rand';
 		else {
 			$orderby = sanitize_key( $settings['orderby'] ?? 'date' );
+			$allowed_orderby = array( 'date', 'title', 'menu_order', 'price', 'rand' );
+			$orderby = in_array( $orderby, $allowed_orderby, true ) ? $orderby : 'date';
 			if ( 'price' === $orderby ) { $args['meta_key'] = '_price'; $args['orderby'] = 'meta_value_num'; } else $args['orderby'] = $orderby;
 			$args['order'] = 'ASC' === ( $settings['order'] ?? 'DESC' ) ? 'ASC' : 'DESC';
 		}
@@ -81,12 +85,15 @@ final class MPS_Query {
 	}
 
 	public static function get_products( $args ) {
-		$key = 'mps_' . md5( wp_json_encode( $args ) . MPS_VERSION . wp_cache_get_last_changed( 'posts' ) );
-		$ids = get_transient( $key );
+		if ( ! empty( $args['_mps_no_products'] ) ) {
+			return array();
+		}
+		$key = md5( wp_json_encode( $args ) . MPS_VERSION . wp_cache_get_last_changed( 'posts' ) );
+		$ids = wp_cache_get( $key, 'mim_products_swipe' );
 		if ( false === $ids ) {
 			$query = new WP_Query( array_merge( $args, array( 'fields' => 'ids' ) ) );
 			$ids = $query->posts;
-			set_transient( $key, $ids, 10 * MINUTE_IN_SECONDS );
+			wp_cache_set( $key, $ids, 'mim_products_swipe', 10 * MINUTE_IN_SECONDS );
 		}
 		// Taxonomy and metadata joins can return the same post ID more than once.
 		// Keep every product to a single slide instead of filling the row with
