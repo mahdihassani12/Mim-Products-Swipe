@@ -16,7 +16,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 	public function get_icon() { return 'eicon-products'; }
 	public function get_categories() { return array( 'general' ); }
 	public function get_keywords() { return array( 'woocommerce', 'products', 'carousel', 'tabs', 'slider' ); }
-	public function get_style_depends() { return array( 'mim-products-swipe' ); }
+	public function get_style_depends() { return array( 'swiper', 'mim-products-swipe' ); }
 	public function get_script_depends() { return array( 'mim-products-swipe' ); }
 	private function select2( $label, $options, $multiple = true ) { return array( 'label' => $label, 'type' => Controls_Manager::SELECT2, 'multiple' => $multiple, 'label_block' => true, 'options' => $options ); }
 	private function product_options() {
@@ -61,15 +61,16 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->add_control( 'ajax_tabs', array( 'label' => esc_html__( 'AJAX-load inactive tabs', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
 		$this->end_controls_section();
 
-		$this->start_controls_section( 'carousel', array( 'label' => esc_html__( 'Carousel', 'mim-products-swipe' ) ) );
-		$this->add_responsive_control( 'items', array( 'label' => esc_html__( 'Items per row', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'desktop_default' => 4, 'tablet_default' => 2, 'mobile_default' => 1, 'min' => 1, 'max' => 8, 'description' => esc_html__( 'Use the device icons to choose separate values for large, medium, and small screens.', 'mim-products-swipe' ) ) );
-		$this->add_responsive_control( 'gap', array( 'label' => esc_html__( 'Gap', 'mim-products-swipe' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'range' => array( 'px' => array( 'min' => 0, 'max' => 100 ) ), 'desktop_default' => array( 'size' => 24 ), 'tablet_default' => array( 'size' => 18 ), 'mobile_default' => array( 'size' => 12 ) ) );
-		$this->add_control( 'arrows', array( 'label' => esc_html__( 'Navigation arrows', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
-		$this->add_control( 'dots', array( 'label' => esc_html__( 'Pagination dots', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
-		$this->add_control( 'draggable', array( 'label' => esc_html__( 'Mouse drag & touch swipe', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
-		$this->add_control( 'autoplay', array( 'label' => esc_html__( 'Autoplay', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes' ) );
+		$this->start_controls_section( 'carousel', array( 'label' => esc_html__( 'Layout', 'mim-products-swipe' ) ) );
+		$this->add_control( 'layout', array( 'label' => esc_html__( 'Layout', 'mim-products-swipe' ), 'type' => Controls_Manager::CHOOSE, 'default' => 'carousel', 'toggle' => false, 'options' => array( 'grid' => array( 'title' => esc_html__( 'Grid', 'mim-products-swipe' ), 'icon' => 'eicon-gallery-grid' ), 'carousel' => array( 'title' => esc_html__( 'Carousel', 'mim-products-swipe' ), 'icon' => 'eicon-slider-push' ) ) ) );
+		$this->add_responsive_control( 'items', array( 'label' => esc_html__( 'Items per row', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'desktop_default' => 4, 'tablet_default' => 2, 'mobile_default' => 1, 'min' => 1, 'max' => 8, 'selectors' => array( '{{WRAPPER}} .mps-layout-grid .mps-track' => '--mps-items: {{VALUE}}' ), 'description' => esc_html__( 'Use the device icons to choose separate values for large, medium, and small screens.', 'mim-products-swipe' ) ) );
+		$this->add_responsive_control( 'gap', array( 'label' => esc_html__( 'Gap', 'mim-products-swipe' ), 'type' => Controls_Manager::SLIDER, 'size_units' => array( 'px' ), 'range' => array( 'px' => array( 'min' => 0, 'max' => 100 ) ), 'desktop_default' => array( 'size' => 24 ), 'tablet_default' => array( 'size' => 18 ), 'mobile_default' => array( 'size' => 12 ), 'selectors' => array( '{{WRAPPER}} .mps-layout-grid .mps-track' => '--mps-gap: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_control( 'arrows', array( 'label' => esc_html__( 'Navigation arrows', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes', 'condition' => array( 'layout' => 'carousel' ) ) );
+		$this->add_control( 'dots', array( 'label' => esc_html__( 'Pagination dots', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes', 'condition' => array( 'layout' => 'carousel' ) ) );
+		$this->add_control( 'draggable', array( 'label' => esc_html__( 'Mouse drag & touch swipe', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes', 'condition' => array( 'layout' => 'carousel' ) ) );
+		$this->add_control( 'autoplay', array( 'label' => esc_html__( 'Autoplay', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'condition' => array( 'layout' => 'carousel' ) ) );
 		$this->add_control( 'autoplay_speed', array( 'label' => esc_html__( 'Autoplay delay (ms)', 'mim-products-swipe' ), 'type' => Controls_Manager::NUMBER, 'default' => 4000, 'min' => 1000, 'step' => 100, 'condition' => array( 'autoplay' => 'yes' ) ) );
-		$this->add_control( 'loop', array( 'label' => esc_html__( 'Loop', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes' ) );
+		$this->add_control( 'loop', array( 'label' => esc_html__( 'Loop', 'mim-products-swipe' ), 'type' => Controls_Manager::SWITCHER, 'return_value' => 'yes', 'default' => 'yes', 'condition' => array( 'layout' => 'carousel' ) ) );
 		$this->end_controls_section();
 
 		$this->style_controls();
@@ -79,7 +80,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->start_controls_section( 'style_heading', array( 'label' => esc_html__( 'Heading', 'mim-products-swipe' ), 'tab' => Controls_Manager::TAB_STYLE ) );
 		$this->add_group_control( Group_Control_Typography::get_type(), array( 'name' => 'heading_typography', 'selector' => '{{WRAPPER}} .mps-heading' ) );
 		$this->add_control( 'heading_color', array( 'label' => 'Color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-heading' => 'color: {{VALUE}}' ) ) );
-		$this->add_control( 'accent_color', array( 'label' => 'Accent color', 'type' => Controls_Manager::COLOR, 'default' => '#09b9d4', 'selectors' => array( '{{WRAPPER}} .mps-heading:after' => 'background: {{VALUE}}', '{{WRAPPER}} .mps-dot.is-active' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'accent_color', array( 'label' => 'Accent color', 'type' => Controls_Manager::COLOR, 'default' => '#09b9d4', 'selectors' => array( '{{WRAPPER}} .mps-heading:after' => 'background: {{VALUE}}', '{{WRAPPER}} .mps-dot.is-active, {{WRAPPER}} .swiper-pagination-bullet-active' => 'background: {{VALUE}}' ) ) );
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'style_tabs', array( 'label' => esc_html__( 'Tabs', 'mim-products-swipe' ), 'tab' => Controls_Manager::TAB_STYLE ) );
@@ -148,10 +149,10 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$this->add_control( 'arrow_size', array( 'label' => 'Arrow size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 24, 'max' => 80 ) ), 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}' ) ) );
 		$this->add_control( 'arrow_icon_size', array( 'label' => 'Arrow icon size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 12, 'max' => 60 ) ), 'selectors' => array( '{{WRAPPER}} .mps-arrow' => 'font-size: {{SIZE}}{{UNIT}}' ) ) );
 		$this->add_responsive_control( 'arrow_offset', array( 'label' => 'Arrow edge offset', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => -60, 'max' => 60 ) ), 'selectors' => array( '{{WRAPPER}} .mps-prev' => 'inset-inline-start: {{SIZE}}{{UNIT}}', '{{WRAPPER}} .mps-next' => 'inset-inline-end: {{SIZE}}{{UNIT}}' ) ) );
-		$this->add_control( 'dot_color', array( 'label' => 'Dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot' => 'background: {{VALUE}}' ) ) );
-		$this->add_control( 'dot_active_color', array( 'label' => 'Active dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active' => 'background: {{VALUE}}' ) ) );
-		$this->add_control( 'dot_size', array( 'label' => 'Dot size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 30 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}' ) ) );
-		$this->add_control( 'dot_active_width', array( 'label' => 'Active dot width', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 80 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active' => 'width: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_control( 'dot_color', array( 'label' => 'Dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot, {{WRAPPER}} .swiper-pagination-bullet' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'dot_active_color', array( 'label' => 'Active dot color', 'type' => Controls_Manager::COLOR, 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active, {{WRAPPER}} .swiper-pagination-bullet-active' => 'background: {{VALUE}}' ) ) );
+		$this->add_control( 'dot_size', array( 'label' => 'Dot size', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 30 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot, {{WRAPPER}} .swiper-pagination-bullet' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}}' ) ) );
+		$this->add_control( 'dot_active_width', array( 'label' => 'Active dot width', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 4, 'max' => 80 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dot.is-active, {{WRAPPER}} .swiper-pagination-bullet-active' => 'width: {{SIZE}}{{UNIT}}' ) ) );
 		$this->add_responsive_control( 'pagination_spacing', array( 'label' => 'Pagination spacing', 'type' => Controls_Manager::SLIDER, 'range' => array( 'px' => array( 'min' => 0, 'max' => 100 ) ), 'selectors' => array( '{{WRAPPER}} .mps-dots' => 'margin-top: {{SIZE}}{{UNIT}}' ) ) );
 		$this->end_controls_section();
 	}
@@ -165,6 +166,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$uid  = 'mps-' . $this->get_id();
 
 		$config = array(
+			'layout'     => 'grid' === ( $s['layout'] ?? 'carousel' ) ? 'grid' : 'carousel',
 			'desktop'    => max( 1, absint( $s['items'] ?? 4 ) ),
 			'tablet'     => max( 1, absint( $s['items_tablet'] ?? 2 ) ),
 			'mobile'     => max( 1, absint( $s['items_mobile'] ?? 1 ) ),
@@ -183,7 +185,7 @@ class MPS_Elementor_Widget extends Widget_Base {
 		$config    = apply_filters( 'mps_carousel_config', $config, $s, $this );
 		$is_editor = class_exists( '\\Elementor\\Plugin' ) && \Elementor\Plugin::$instance->editor->is_edit_mode();
 		?>
-		<section id="<?php echo esc_attr( $uid ); ?>" class="mps" data-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>" aria-roledescription="carousel" aria-label="<?php echo esc_attr( $s['heading'] ?: __( 'Products', 'mim-products-swipe' ) ); ?>">
+		<section id="<?php echo esc_attr( $uid ); ?>" class="mps mps-layout-<?php echo esc_attr( $config['layout'] ); ?>" data-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>" aria-label="<?php echo esc_attr( $s['heading'] ?: __( 'Products', 'mim-products-swipe' ) ); ?>">
 			<div class="mps-top"><h2 class="mps-heading"><?php echo esc_html( $s['heading'] ); ?></h2><div class="mps-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Product groups', 'mim-products-swipe' ); ?>">
 			<?php foreach ( $tabs as $i => $tab ) : $tab_id = $uid . '-tab-' . $i; $panel_id = $uid . '-panel-' . $i; ?><button id="<?php echo esc_attr( $tab_id ); ?>" class="mps-tab <?php echo 0 === $i ? 'is-active' : ''; ?>" type="button" role="tab" aria-selected="<?php echo 0 === $i ? 'true' : 'false'; ?>" aria-controls="<?php echo esc_attr( $panel_id ); ?>" tabindex="<?php echo 0 === $i ? '0' : '-1'; ?>" data-tab="<?php echo esc_attr( $i ); ?>"><?php echo esc_html( $tab['label'] ); ?></button><?php endforeach; ?>
 			</div></div>
@@ -195,9 +197,9 @@ class MPS_Elementor_Widget extends Widget_Base {
 				$signature = hash_hmac( 'sha256', $payload, wp_salt( 'auth' ) );
 			?>
 			<div id="<?php echo esc_attr( $uid . '-panel-' . $i ); ?>" class="mps-panel <?php echo 0 === $i ? 'is-active' : ''; ?>" role="tabpanel" aria-labelledby="<?php echo esc_attr( $uid . '-tab-' . $i ); ?>" data-panel="<?php echo esc_attr( $i ); ?>" <?php echo 0 === $i ? '' : 'hidden'; ?> <?php if ( $lazy ) : ?>data-payload="<?php echo esc_attr( $payload ); ?>" data-signature="<?php echo esc_attr( $signature ); ?>"<?php endif; ?>>
-				<div class="mps-viewport" tabindex="0"><div class="mps-track"><?php echo $lazy ? '<div class="mps-loading" aria-hidden="true"></div>' : MPS_Renderer::products_html( $args, 'yes' === ( $s['theme_template'] ?? 'yes' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
-				<?php if ( 'yes' === ( $s['arrows'] ?? '' ) ) : ?><button class="mps-arrow mps-prev" type="button" aria-label="<?php esc_attr_e( 'Previous products', 'mim-products-swipe' ); ?>">&#8249;</button><button class="mps-arrow mps-next" type="button" aria-label="<?php esc_attr_e( 'Next products', 'mim-products-swipe' ); ?>">&#8250;</button><?php endif; ?>
-				<?php if ( 'yes' === ( $s['dots'] ?? '' ) ) : ?><div class="mps-dots" aria-label="<?php esc_attr_e( 'Carousel pagination', 'mim-products-swipe' ); ?>"></div><?php endif; ?>
+				<div class="mps-viewport swiper" tabindex="0"><div class="mps-track swiper-wrapper"><?php echo $lazy ? '<div class="mps-loading" aria-hidden="true"></div>' : MPS_Renderer::products_html( $args, 'yes' === ( $s['theme_template'] ?? 'yes' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
+				<?php if ( 'carousel' === $config['layout'] && 'yes' === ( $s['arrows'] ?? '' ) ) : ?><button class="mps-arrow mps-prev" type="button" aria-label="<?php esc_attr_e( 'Previous products', 'mim-products-swipe' ); ?>">&#8249;</button><button class="mps-arrow mps-next" type="button" aria-label="<?php esc_attr_e( 'Next products', 'mim-products-swipe' ); ?>">&#8250;</button><?php endif; ?>
+				<?php if ( 'carousel' === $config['layout'] && 'yes' === ( $s['dots'] ?? '' ) ) : ?><div class="mps-dots swiper-pagination" aria-label="<?php esc_attr_e( 'Carousel pagination', 'mim-products-swipe' ); ?>"></div><?php endif; ?>
 			</div><?php endforeach; ?>
 		</section>
 		<?php

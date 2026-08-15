@@ -15,7 +15,7 @@ final class MPS_Renderer {
 			$GLOBALS['post'] = get_post( $product->get_id() );
 			$GLOBALS['product'] = $product;
 			setup_postdata( $GLOBALS['post'] );
-			echo '<div class="mps-slide" role="group"><div class="mps-product">';
+			echo '<div class="mps-slide swiper-slide" role="group"><div class="mps-product">';
 			if ( $theme_template ) {
 				echo '<ul class="products columns-1">';
 				wc_get_template_part( 'content', 'product' );
