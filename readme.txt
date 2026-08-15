@@ -1,21 +1,20 @@
 === Mim Products Swipe ===
-Contributors: mim
+Contributors: mahdihassani
 Tags: woocommerce, elementor, products, carousel, tabs
 Requires at least: 6.2
 Requires PHP: 7.4
-Stable tag: 2.3.1
+Stable tag: 3.0.0
 License: GPLv2 or later
 
 A simple, responsive WooCommerce product carousel for Elementor.
 
 == Description ==
 
-Mim Products Swipe displays products in swipeable, tabbed carousels. Choose the
+Mim Products Swipe displays products in responsive, tabbed grids or carousels. Choose the
 products to show, adjust the responsive layout, and style the carousel with
 Elementor controls. It supports theme product cards, AJAX tabs, touch gestures,
-keyboard navigation, autoplay, arrows, and pagination dots. The lightweight
-native swipe slider uses CSS scroll snapping, has no carousel-library dependency,
-and supports separate desktop, tablet, and mobile item and gap settings in
+keyboard navigation, autoplay, arrows, and pagination dots. Carousel mode uses Elementor's bundled Swiper library and assets—no additional carousel
+dependency is loaded—and supports separate desktop, tablet, and mobile item and gap settings in
 Elementor, including inside the live editor.
 
 == Installation ==
