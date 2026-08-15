@@ -1,34 +1,26 @@
 === Mim Products Swipe ===
 Contributors: mahdihassani
-Tags: woocommerce, elementor, products, carousel, tabs
+Tags: woocommerce, elementor, products, carousel, slider
 Requires at least: 6.2
 Requires PHP: 7.4
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 License: GPLv2 or later
 
-A simple, responsive WooCommerce product carousel for Elementor.
+A simple, responsive WooCommerce product grid and carousel for Elementor.
 
 == Description ==
 
-Mim Products Swipe displays products in responsive, tabbed grids or carousels. Choose the
-products to show, adjust the responsive layout, and style the carousel with
-Elementor controls. It supports theme product cards, AJAX tabs, touch gestures,
-keyboard navigation, autoplay, arrows, and pagination dots. Carousel mode uses Elementor's bundled Swiper library and assets—no additional carousel
-dependency is loaded—and supports separate desktop, tablet, and mobile item and gap settings in
-Elementor, including inside the live editor.
+Mim Products Swipe displays a selected WooCommerce product collection in a responsive grid or carousel. Choose the product source, apply category, brand, attribute, stock, include, and exclude filters, and customize the responsive layout in Elementor.
+
+An optional headline includes a title, subtitle, and view-more link. Carousel mode uses Elementor's bundled Swiper library, so no additional carousel dependency or tab-related AJAX request is loaded.
 
 == Installation ==
 
 1. Install and activate WooCommerce and Elementor.
 2. Upload and activate Mim Products Swipe.
 3. Edit a page with Elementor and add the “Mim Products Swipe” widget.
-4. Choose your product tabs and customize the layout in the widget controls.
+4. Choose a product source and customize the layout and optional headline.
 
 == Customization ==
 
-Most colors, spacing, typography, cards, arrows, and dots can be changed in
-Elementor. Developers can also use the `mps_widget_tabs`,
-`mps_carousel_config`, `mps_product_query_args`, and `mps_products_html`
-filters. The `--mps-accent`, `--mps-text`, `--mps-muted`, `--mps-border`,
-`--mps-surface`, and `--mps-danger` CSS properties provide lightweight theme
-overrides.
+Headline typography and colors, product cards, navigation, spacing, and responsive item counts can be changed in Elementor. Developers can use the `mps_carousel_config`, `mps_product_query_args`, and `mps_products_html` filters.
