@@ -4,10 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class MPS_Renderer {
-	public static function products_html( $args, $settings, $carousel = false ) {
+	public static function products_html( $args, $settings, $carousel = false, $include_banner = true ) {
 		$theme_template = 'yes' === ( $settings['theme_template'] ?? 'yes' );
 		$products = MPS_Query::get_products( $args );
-		$has_banner = 'yes' === ( $settings['show_banner'] ?? '' ) && ! empty( $settings['banner_image']['url'] );
+		$has_banner = $include_banner && 'yes' === ( $settings['show_banner'] ?? '' ) && ! empty( $settings['banner_image']['url'] );
 		if ( ! $products && ! $has_banner ) {
 			return '<div class="mps-empty">' . esc_html__( 'No products found.', 'mim-products-swipe' ) . '</div>';
 		}
@@ -42,6 +42,12 @@ final class MPS_Renderer {
 		}
 		wp_reset_postdata();
 		return apply_filters( 'mps_products_html', ob_get_clean(), $args, $theme_template, $carousel, $settings );
+	}
+
+	public static function banner_html( $settings, $carousel = false ) {
+		ob_start();
+		self::banner( $settings, $carousel );
+		return ob_get_clean();
 	}
 
 	private static function banner( $settings, $carousel ) {

@@ -11,7 +11,7 @@ use Elementor\Widget_Base;
 
 class MPS_Elementor_Widget extends Widget_Base {
 	public function get_name() { return 'mim-products-swipe'; }
-	public function get_title() { return esc_html__( 'Mim Products Swipe', 'mim-products-swipe' ); }
+	public function get_title() { return esc_html__( 'Sova Products Swipe', 'mim-products-swipe' ); }
 	public function get_icon() { return 'eicon-products'; }
 	public function get_categories() { return array( 'general' ); }
 	public function get_keywords() { return array( 'woocommerce', 'products', 'carousel', 'slider' ); }
@@ -171,9 +171,11 @@ class MPS_Elementor_Widget extends Widget_Base {
 			'slidesToScroll' => max( 1, absint( $s['slides_to_scroll'] ?? 1 ) ), 'pauseOnHover' => 'yes' === ( $s['pause_on_hover'] ?? 'yes' ), 'loop' => 'yes' === ( $s['loop'] ?? '' ),
 			'centeredSlides' => 'yes' === ( $s['centered_slides'] ?? '' ), 'autoHeight' => 'yes' === ( $s['auto_height'] ?? '' ),
 		);
+		$has_banner = 'yes' === ( $s['show_banner'] ?? '' ) && ! empty( $s['banner_image']['url'] );
+		$config['fixedBanner'] = $has_banner;
 		$config = apply_filters( 'mps_carousel_config', $config, $s, $this );
 		$query_settings = $s;
-		if ( 'yes' === ( $s['show_banner'] ?? '' ) && ! empty( $s['banner_image']['url'] ) ) {
+		if ( $has_banner ) {
 			$total_items = max( 1, absint( $s['products_limit'] ?? 12 ) );
 			if ( 1 === $total_items ) {
 				$args = array( '_mps_no_products' => true );
@@ -189,8 +191,9 @@ class MPS_Elementor_Widget extends Widget_Base {
 		<section class="mps mps-layout-<?php echo esc_attr( $config['layout'] ); ?>" data-config="<?php echo esc_attr( wp_json_encode( $config ) ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
 			<?php $this->render_headline( $s ); ?>
 			<?php if ( 'carousel' === $config['layout'] ) : ?>
-				<div class="mps-panel mps-carousel-shell">
-					<div class="mps-viewport mps-carousel swiper" tabindex="0"><div class="mps-track swiper-wrapper" role="list"><?php echo MPS_Renderer::products_html( $args, $s, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
+				<div class="mps-panel mps-carousel-shell<?php echo $has_banner ? ' mps-has-fixed-banner' : ''; ?>">
+					<?php if ( $has_banner ) : ?><div class="mps-fixed-banner" role="list"><?php echo MPS_Renderer::banner_html( $s ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
+					<div class="mps-viewport mps-carousel swiper" tabindex="0"><div class="mps-track swiper-wrapper" role="list"><?php echo MPS_Renderer::products_html( $args, $s, true, ! $has_banner ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div></div>
 					<?php if ( $config['arrows'] ) : ?><div class="mps-products-carousel-nav"><button class="mps-products-carousel-arrow mps-products-carousel-prev" type="button" aria-label="<?php esc_attr_e( 'Previous products', 'mim-products-swipe' ); ?>"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg></button><button class="mps-products-carousel-arrow mps-products-carousel-next" type="button" aria-label="<?php esc_attr_e( 'Next products', 'mim-products-swipe' ); ?>"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></button></div><?php endif; ?>
 				</div>
 			<?php else : ?>

@@ -58,11 +58,13 @@
   width: 100%;
 }
 .mps .mps-track {
+  align-items: stretch;
   box-sizing: border-box;
 }
 .mps .mps-slide {
   box-sizing: border-box;
   display: flex;
+  height: auto;
   min-width: 0;
   width: 100%;
 }
@@ -112,11 +114,15 @@
   width: 100%;
 }
 .mps .mps-product ul.products {
-  display: block;
+  display: flex;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
 .mps .mps-product ul.products li.product {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   float: none !important;
   height: 100%;
   margin: 0 !important;
@@ -128,6 +134,9 @@
   width: 100%;
 }
 .mps .mps-product .mps-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   position: relative;
 }
@@ -139,7 +148,33 @@
   height: 100%;
 }
 .mps .mps-card .mps-card-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   padding: 14px;
+}
+.mps .mps-card .mps-card-content .button {
+  margin-top: auto;
+}
+.mps .mps-carousel-shell.mps-has-fixed-banner {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mps-live-gap);
+}
+.mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner {
+  flex: 0 0 calc((100% - (var(--mps-live-gap) * 3)) / 4);
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+.mps .mps-carousel-shell.mps-has-fixed-banner .mps-viewport {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.mps .mps-carousel-shell.mps-has-fixed-banner .mps-products-carousel-nav {
+  flex-basis: 100%;
+  margin-top: calc(10px - var(--mps-live-gap)) !important;
 }
 .mps .mps-card a {
   text-decoration: none;
@@ -257,9 +292,18 @@
   .mps .mps-headline .mps-headline-title {
     font-size: 25px;
   }
+  .mps .mps-carousel-shell.mps-has-fixed-banner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner {
+    flex-basis: auto;
+    width: 100%;
+  }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
 	.mps .mps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner { flex-basis: calc((100% - var(--mps-live-gap)) / 2); }
 }
 .mps.mps-layout-carousel .mps-viewport {
   /*

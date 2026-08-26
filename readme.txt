@@ -1,25 +1,25 @@
-=== Mim Products Swipe ===
+=== Sova Products Swipe ===
 Contributors: mahdihassani
 Tags: woocommerce, elementor, products, carousel, slider
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.5.3
+Stable tag: 3.6.0
 License: GPLv2 or later
 
 A simple, responsive WooCommerce product grid and carousel for Elementor.
 
 == Description ==
 
-Mim Products Swipe displays a selected WooCommerce product collection in a responsive grid or carousel. Choose the product source, apply category, brand, attribute, stock, include, and exclude filters, and customize the responsive layout in Elementor.
+Sova Products Swipe displays a selected WooCommerce product collection in a responsive grid or carousel. Choose the product source, apply category, brand, attribute, stock, include, and exclude filters, and customize the responsive layout in Elementor.
 
 An optional headline includes a title, subtitle, and view-more link. Carousel mode uses Elementor's bundled Swiper library, so no additional carousel dependency or tab-related AJAX request is loaded.
 
 == Installation ==
 
 1. Install and activate WooCommerce and Elementor.
-2. Upload and activate Mim Products Swipe.
-3. Edit a page with Elementor and add the “Mim Products Swipe” widget.
+2. Upload and activate Sova Products Swipe.
+3. Edit a page with Elementor and add the “Sova Products Swipe” widget.
 4. Choose a product source and customize the layout and optional headline.
 
 == Customization ==
@@ -27,6 +27,11 @@ An optional headline includes a title, subtitle, and view-more link. Carousel mo
 Headline typography and colors, product cards, navigation, spacing, and responsive item counts can be changed in Elementor. Developers can use the `mps_carousel_config`, `mps_product_query_args`, and `mps_products_html` filters.
 
 == Changelog ==
+
+= 3.6.0 =
+* Renamed the plugin and Elementor widget to Sova Products Swipe.
+* Made product cards stretch to a consistent height.
+* Kept carousel banners stationary while product slides move independently.
 
 = 3.5.3 =
 * Added responsive Start, Middle, and End alignment for carousel navigation.
