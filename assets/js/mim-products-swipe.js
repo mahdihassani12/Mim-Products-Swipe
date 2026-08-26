@@ -10,6 +10,10 @@
 	}
 
 	function destroyCarousel( root ) {
+		if ( root.mpsCarouselResize ) {
+			window.removeEventListener( 'resize', root.mpsCarouselResize );
+			root.mpsCarouselResize = null;
+		}
 		if ( root.mpsGapWatcher ) {
 			window.clearInterval( root.mpsGapWatcher );
 			root.mpsGapWatcher = null;
@@ -85,6 +89,28 @@
 		return Number.isFinite( value ) ? Math.max( 0, value ) : fallback;
 	}
 
+	function updateFixedBannerWidth( root, config ) {
+		var columns;
+		var gap;
+
+		if ( ! config.fixedBanner ) {
+			return;
+		}
+		if ( window.innerWidth <= 767 ) {
+			columns = Math.max( 1, Number( config.mobile ) || 1 );
+			gap = getLiveGap( root, Math.max( 0, Number( config.gapMobile ) || 0 ) );
+		} else if ( window.innerWidth <= 1024 ) {
+			columns = Math.max( 1, Number( config.tablet ) || 2 );
+			gap = getLiveGap( root, Math.max( 0, Number( config.gapTablet ) || 0 ) );
+		} else {
+			columns = Math.max( 1, Number( config.desktop ) || 4 );
+			gap = getLiveGap( root, Math.max( 0, Number( config.gapDesktop ) || 0 ) );
+		}
+
+		root.style.setProperty( '--mps-banner-column-percent', ( 100 / columns ) + '%' );
+		root.style.setProperty( '--mps-banner-gap-share', ( gap * ( columns - 1 ) / columns ) + 'px' );
+	}
+
 	function watchEditorGap( root ) {
 		if ( ! window.elementorFrontend || ! window.elementorFrontend.isEditMode || ! window.elementorFrontend.isEditMode() ) {
 			return;
@@ -104,6 +130,7 @@
 				root.mpsGap = gap;
 				root.mpsSwiper.params.spaceBetween = gap;
 				root.mpsSwiper.update();
+				updateFixedBannerWidth( root, getConfig( root ) );
 			}
 		}, 150 );
 	}
@@ -125,6 +152,9 @@
 		if ( 'carousel' !== config.layout || ! viewport || ! shell || ! Swiper ) {
 			return;
 		}
+		updateFixedBannerWidth( root, config );
+		root.mpsCarouselResize = function () { updateFixedBannerWidth( root, config ); };
+		window.addEventListener( 'resize', root.mpsCarouselResize );
 
 		var options = {
 			a11y: { enabled: true },

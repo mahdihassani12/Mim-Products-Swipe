@@ -163,7 +163,7 @@
   gap: var(--mps-live-gap);
 }
 .mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner {
-  flex: 0 0 calc((100% - (var(--mps-live-gap) * 3)) / 4);
+  flex: 0 0 calc(var(--mps-banner-column-percent, 25%) - var(--mps-banner-gap-share, 18px));
   min-width: 0;
   position: relative;
   z-index: 2;
@@ -303,7 +303,6 @@
 }
 @media (min-width: 768px) and (max-width: 1024px) {
 	.mps .mps-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-  .mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner { flex-basis: calc((100% - var(--mps-live-gap)) / 2); }
 }
 .mps.mps-layout-carousel .mps-viewport {
   /*
@@ -316,6 +315,11 @@
   padding-block-end: 96px;
   margin-block-start: -48px;
   margin-block-end: -96px;
+}
+.mps.mps-layout-carousel .mps-carousel-shell.mps-has-fixed-banner .mps-viewport {
+  /* Keep the fixed banner and each moving slide on the same width calculation. */
+  margin-inline: 0;
+  width: auto;
 }
 .mps .mps-slide,
 .mps .mps-grid-item,
