@@ -32,6 +32,7 @@ Headline typography and colors, product cards, navigation, spacing, and responsi
 * Renamed the plugin and Elementor widget to Sova Products Swipe.
 * Made product cards stretch to a consistent height.
 * Kept carousel banners stationary while product slides move independently.
+* Matched fixed banner width to one responsive carousel column.
 
 = 3.5.3 =
 * Added responsive Start, Middle, and End alignment for carousel navigation.
