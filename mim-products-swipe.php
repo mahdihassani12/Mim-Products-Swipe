@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Sova Products Swipe
  * Description: Responsive WooCommerce product grids and carousels for Elementor.
- * Version: 3.6.0
+ * Version: 3.6.1
  * Author: Mahdi Hassani
  * Text Domain: mim-products-swipe
  * Requires Plugins: woocommerce, elementor
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MPS_VERSION', '3.6.0' );
+define( 'MPS_VERSION', '3.6.1' );
 define( 'MPS_FILE', __FILE__ );
 define( 'MPS_URL', plugin_dir_url( __FILE__ ) );
 

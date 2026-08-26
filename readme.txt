@@ -4,7 +4,7 @@ Tags: woocommerce, elementor, products, carousel, slider
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.6.0
+Stable tag: 3.6.1
 License: GPLv2 or later
 
 A simple, responsive WooCommerce product grid and carousel for Elementor.
@@ -27,6 +27,9 @@ An optional headline includes a title, subtitle, and view-more link. Carousel mo
 Headline typography and colors, product cards, navigation, spacing, and responsive item counts can be changed in Elementor. Developers can use the `mps_carousel_config`, `mps_product_query_args`, and `mps_products_html` filters.
 
 == Changelog ==
+
+= 3.6.1 =
+* Fixed the stationary banner width so it always equals one product column at each responsive column count.
 
 = 3.6.0 =
 * Renamed the plugin and Elementor widget to Sova Products Swipe.

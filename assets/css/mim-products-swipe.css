@@ -163,7 +163,8 @@
   gap: var(--mps-live-gap);
 }
 .mps .mps-carousel-shell.mps-has-fixed-banner .mps-fixed-banner {
-  flex: 0 0 calc(var(--mps-banner-column-percent, 25%) - var(--mps-banner-gap-share, 18px));
+  flex: 0 0 var(--mps-banner-column-width, calc(25% - 18px));
+  width: var(--mps-banner-column-width, calc(25% - 18px));
   min-width: 0;
   position: relative;
   z-index: 2;

@@ -92,6 +92,8 @@
 	function updateFixedBannerWidth( root, config ) {
 		var columns;
 		var gap;
+		var shell;
+		var columnWidth;
 
 		if ( ! config.fixedBanner ) {
 			return;
@@ -107,8 +109,28 @@
 			gap = getLiveGap( root, Math.max( 0, Number( config.gapDesktop ) || 0 ) );
 		}
 
-		root.style.setProperty( '--mps-banner-column-percent', ( 100 / columns ) + '%' );
-		root.style.setProperty( '--mps-banner-gap-share', ( gap * ( columns - 1 ) / columns ) + 'px' );
+		shell = root.querySelector( '.mps-carousel-shell.mps-has-fixed-banner' );
+		if ( ! shell ) {
+			return;
+		}
+		if ( root.mpsBannerResizeObserver ) {
+			root.mpsBannerResizeObserver.disconnect();
+			root.mpsBannerResizeObserver = null;
+		}
+
+		/* On mobile the banner is stacked above the carousel. */
+		if ( window.innerWidth <= 767 || 1 === columns ) {
+			root.style.removeProperty( '--mps-banner-column-width' );
+			return;
+		}
+
+		/*
+		 * Treat the fixed banner as one of the configured visible columns.
+		 * Using the shell's real pixel width keeps it identical to a Swiper
+		 * product slide at every responsive column count.
+		 */
+		columnWidth = ( shell.clientWidth - ( gap * ( columns - 1 ) ) ) / columns;
+		root.style.setProperty( '--mps-banner-column-width', Math.max( 0, columnWidth ) + 'px' );
 	}
 
 	function watchEditorGap( root ) {
@@ -155,6 +177,10 @@
 		updateFixedBannerWidth( root, config );
 		root.mpsCarouselResize = function () { updateFixedBannerWidth( root, config ); };
 		window.addEventListener( 'resize', root.mpsCarouselResize );
+		if ( config.fixedBanner && 'ResizeObserver' in window ) {
+			root.mpsBannerResizeObserver = new ResizeObserver( root.mpsCarouselResize );
+			root.mpsBannerResizeObserver.observe( shell );
+		}
 
 		var options = {
 			a11y: { enabled: true },
