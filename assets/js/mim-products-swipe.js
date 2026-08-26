@@ -115,6 +115,9 @@
 		var Swiper = window.elementorFrontend && window.elementorFrontend.utils && window.elementorFrontend.utils.swiper;
 		var slideCount = viewport ? viewport.querySelectorAll( '.swiper-slide' ).length : 0;
 		var largestView = Math.max( Number( config.mobile ) || 1, Number( config.tablet ) || 2, Number( config.desktop ) || 4 );
+		var productViews = function ( value ) {
+			return config.fixedBanner ? Math.max( 1, Number( value ) - 1 ) : Math.max( 1, Number( value ) );
+		};
 		var canLoop = Boolean( config.loop ) && slideCount > largestView;
 		var liveGap = getLiveGap( root, Math.max( 0, Number( config.gapMobile ) || 0 ) );
 
@@ -133,13 +136,13 @@
 			loop: canLoop,
 			rewind: Boolean( config.loop ) && ! canLoop,
 			slidesPerGroup: Math.max( 1, Number( config.slidesToScroll ) || 1 ),
-			slidesPerView: Math.max( 1, Number( config.mobile ) || 1 ),
+			slidesPerView: productViews( config.mobile || 1 ),
 			spaceBetween: liveGap,
 			speed: Math.max( 100, Number( config.transitionSpeed ) || 500 ),
 			watchOverflow: true,
 			breakpoints: {
-				768: { slidesPerView: Math.max( 1, Number( config.tablet ) || 2 ), spaceBetween: Math.max( 0, Number( config.gapTablet ) || 0 ) },
-				1025: { slidesPerView: Math.max( 1, Number( config.desktop ) || 4 ), spaceBetween: Math.max( 0, Number( config.gapDesktop ) || 0 ) }
+				768: { slidesPerView: productViews( config.tablet || 2 ), spaceBetween: Math.max( 0, Number( config.gapTablet ) || 0 ) },
+				1025: { slidesPerView: productViews( config.desktop || 4 ), spaceBetween: Math.max( 0, Number( config.gapDesktop ) || 0 ) }
 			}
 		};
 

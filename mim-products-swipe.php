@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Mim Products Swipe
+ * Plugin Name: Sova Products Swipe
  * Description: Responsive WooCommerce product grids and carousels for Elementor.
- * Version: 3.5.3
+ * Version: 3.6.0
  * Author: Mahdi Hassani
  * Text Domain: mim-products-swipe
  * Requires Plugins: woocommerce, elementor
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'MPS_VERSION', '3.5.3' );
+define( 'MPS_VERSION', '3.6.0' );
 define( 'MPS_FILE', __FILE__ );
 define( 'MPS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -59,12 +59,12 @@ final class MPS_Plugin {
 			return;
 		}
 
-		echo '<div class="notice notice-warning"><p>' . esc_html__( 'Mim Products Swipe requires WooCommerce and Elementor to be installed and active.', 'mim-products-swipe' ) . '</p></div>';
+		echo '<div class="notice notice-warning"><p>' . esc_html__( 'Sova Products Swipe requires WooCommerce and Elementor to be installed and active.', 'mim-products-swipe' ) . '</p></div>';
 	}
 
 	public function version_notice() {
 		if ( current_user_can( 'update_plugins' ) ) {
-			echo '<div class="notice notice-warning"><p>' . esc_html__( 'Mim Products Swipe requires Elementor 3.20 or newer and WooCommerce 8.0 or newer.', 'mim-products-swipe' ) . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . esc_html__( 'Sova Products Swipe requires Elementor 3.20 or newer and WooCommerce 8.0 or newer.', 'mim-products-swipe' ) . '</p></div>';
 		}
 	}
 }
